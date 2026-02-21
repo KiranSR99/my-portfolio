@@ -1,0 +1,47 @@
+<div class="container-wrapper">
+    <!-- Sticky Header -->
+    <header class="sticky-header" [style.height.px]="headerHeight">
+        <app-header></app-header>
+    </header>
+
+    <!-- Main Layout Container -->
+    <div class="main-layout" [style.margin-top.px]="headerHeight">
+        <!-- Main Content Area -->
+        <main class="content-area" [class.full-width]="isSidebarMinimized" #mainContent>
+            <router-outlet></router-outlet>
+            <app-test></app-test>
+            
+            <!-- Footer -->
+            <footer class="footer-section">
+                <app-footer></app-footer>
+            </footer>
+        </main>
+
+        <!-- Fixed Sidebar -->
+        <aside 
+            class="sidebar-container" 
+            [class.minimized]="isSidebarMinimized"
+            [style.top.px]="headerHeight" 
+            [style.height.px]="isSidebarMinimized ? 'auto' : sidebarHeight"
+        >
+            <div class="sidebar-header">
+                <button class="minimize-btn" (click)="toggleSidebar()" [title]="isSidebarMinimized ? 'Expand' : 'Minimize'">
+                    {{ isSidebarMinimized ? '→' : '←' }}
+                </button>
+            </div>
+            <div class="sidebar-content-wrapper" *ngIf="!isSidebarMinimized">
+                <app-sidebar></app-sidebar>
+            </div>
+        </aside>
+
+        <!-- Floating Button (when sidebar minimized) -->
+        <button 
+            *ngIf="isSidebarMinimized" 
+            class="floating-sidebar-btn" 
+            (click)="toggleSidebar()"
+            title="Expand sidebar"
+        >
+            ☰
+        </button>
+    </div>
+</div>
