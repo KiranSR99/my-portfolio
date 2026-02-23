@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
       <div class="flex items-center gap-4 mb-10">
         <span class="font-mono text-primary text-lg md:text-xl">{{ number }}.</span>
         <h2 class="font-mono text-2xl md:text-3xl font-bold text-foreground">{{ heading }}</h2>
-        <div class="h-px bg-gray-400! dark:bg-gray-600! flex-1 ml-4"></div>
+        <div class="h-px bg-gray-100! dark:bg-gray-600! flex-1 ml-4"></div>
       </div>
       
       <ng-content></ng-content>

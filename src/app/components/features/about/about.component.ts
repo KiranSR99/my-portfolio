@@ -35,8 +35,8 @@ import { LucideAngularModule, Check } from 'lucide-angular';
              <!-- Overlay -->
              <div class="absolute inset-0 lg:bg-primary/20 bg-transparent transition-all duration-500 group-hover:bg-transparent z-20"></div>
              <!-- Image -->
-             <div class="w-full h-full bg-(--surface) border border-(--border-color) flex items-center justify-center">
-               <img src="kiran.png" alt="Kiran Shrestha" class="w-full h-full object-cover">
+             <div class="w-full h-full bg-(--surface) border border-primary flex items-center justify-center rounded-md">
+               <img src="kiran.png" alt="Kiran Shrestha" class="w-full h-full object-cover rounded-md">
              </div>
            </div>
            <!-- Decorative Frame -->

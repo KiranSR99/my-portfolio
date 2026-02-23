@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnDestroy, Renderer2, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ThemeService } from '../../../services/theme.service';
 import { LucideAngularModule, Moon, Sun, Menu, X } from 'lucide-angular';
 
@@ -7,14 +8,13 @@ import { LucideAngularModule, Moon, Sun, Menu, X } from 'lucide-angular';
   selector: 'app-header',
   imports: [CommonModule, LucideAngularModule],
   host: {
-    'class': 'sticky top-0 z-50 w-full block',
-    '[style.--header-height]': "'56px'"
+    'class': 'sticky top-0 left-0 right-0 z-50 w-full block',
   },
   template: `
     <header class="w-full backdrop-blur-md bg-(--header-bg) border-b border-(--border-color) h-14 flex items-center justify-between px-6 transition-all duration-300">
-      <div>
+      <button (click)="navigateHome()" class="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer" aria-label="Go to home">
         <img src="letter-k.png" alt="Logo" class="w-10 h-10">
-      </div>
+      </button>
       
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex gap-8 font-mono text-sm">
@@ -32,65 +32,124 @@ import { LucideAngularModule, Moon, Sun, Menu, X } from 'lucide-angular';
       </div>
 
       <!-- Mobile Menu Toggle -->
-      <button (click)="toggleMenu()" class="md:hidden p-2 text-primary" aria-label="Toggle Menu">
+      <button (click)="toggleMenu()" class="md:hidden p-2 text-primary ml-auto" aria-label="Toggle Menu">
         <lucide-icon [img]="isMenuOpen() ? XIcon : MenuIcon" class="w-6 h-6"></lucide-icon>
       </button>
+    </header>
 
-      <!-- Mobile Drawer Overlay -->
-      <div *ngIf="isMenuOpen()" 
-           (click)="closeMenu()"
-           class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden">
+    <!-- Mobile Drawer Overlay/Backdrop -->
+    @if (isMenuOpen()) {
+      <div (click)="closeMenu()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" [attr.aria-hidden]="true"></div>
+    }
+
+    <!-- Mobile Drawer -->
+    <aside 
+      [class.translate-x-full]="!isMenuOpen()"
+      [class.translate-x-0]="isMenuOpen()"
+      class="fixed top-0 right-0 h-screen w-64 bg-surface border-l border-(--border-color) z-50 transition-transform duration-300 ease-in-out md:hidden flex flex-col p-8 overflow-y-auto shadow-xl"
+      [attr.aria-hidden]="!isMenuOpen()"
+      role="navigation">
+      
+      <!-- Close Button -->
+      <div class="flex justify-end mb-8">
+        <button (click)="closeMenu()" class="p-2 rounded-lg transition-colors text-primary" aria-label="Close Menu">
+          <lucide-icon [img]="XIcon" class="w-6 h-6"></lucide-icon>
+        </button>
       </div>
 
-      <!-- Mobile Drawer -->
-      <aside [class.translate-x-full]="!isMenuOpen()"
-             [class.translate-x-0]="isMenuOpen()"
-             class="fixed top-0 right-0 h-full w-[280px] bg-surface border-l border-(--border-color) z-50 transition-transform duration-300 ease-in-out md:hidden flex flex-col p-8">
-        
-        <div class="flex justify-end mb-8">
-          <button (click)="closeMenu()" class="text-primary p-2">
-            <lucide-icon [img]="XIcon" class="w-6 h-6"></lucide-icon>
-          </button>
-        </div>
+      <!-- Navigation Links -->
+      <nav class="flex flex-col gap-6 font-mono text-lg mb-8 text-white">
+        <a href="#about" (click)="closeMenu()">01. About</a>
+        <a href="#experience" (click)="closeMenu()">02. Experience</a>
+        <a href="#projects" (click)="closeMenu()">03. Projects</a>
+        <a href="#contact" (click)="closeMenu()">04. Contact</a>
+      </nav>
 
-        <nav class="flex flex-col gap-6 font-mono text-lg mb-8">
-          <a href="#about" (click)="closeMenu()" class="hover:text-primary transition-colors">01. About</a>
-          <a href="#experience" (click)="closeMenu()" class="hover:text-primary transition-colors">02. Experience</a>
-          <a href="#projects" (click)="closeMenu()" class="hover:text-primary transition-colors">03. Projects</a>
-          <a href="#contact" (click)="closeMenu()" class="hover:text-primary transition-colors">04. Contact</a>
-        </nav>
-
-        <div class="mt-auto border-t border-(--border-color) pt-6 flex items-center justify-between">
-          <span class="font-mono text-sm text-text-muted">Switch Theme</span>
-          <button (click)="themeService.toggleTheme()" class="p-3 rounded-xl bg-primary/10 text-primary border border-primary/20">
-            <lucide-icon [img]="themeService.darkMode() ? SunIcon : MoonIcon" class="w-5 h-5"></lucide-icon>
-          </button>
-        </div>
-      </aside>
-    </header>
+      <!-- Theme Toggle -->
+      <div class="mt-auto border-t border-(--border-color) pt-6 flex items-center justify-between">
+        <span class="font-mono text-sm text-white">Switch Theme</span>
+        <button (click)="themeService.toggleTheme()" class="p-3 rounded-xl bg-primary text-white">
+          <lucide-icon [img]="themeService.darkMode() ? SunIcon : MoonIcon" class="w-5 h-5"></lucide-icon>
+        </button>
+      </div>
+    </aside>
   `
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   readonly MoonIcon = Moon;
   readonly SunIcon = Sun;
   readonly MenuIcon = Menu;
   readonly XIcon = X;
 
   isMenuOpen = signal(false);
+  private scrollPosition = 0;
 
-  constructor(public themeService: ThemeService) { }
+  constructor(
+    public themeService: ThemeService,
+    private renderer: Renderer2,
+    private router: Router
+  ) { }
 
   toggleMenu() {
     this.isMenuOpen.set(!this.isMenuOpen());
-    if (this.isMenuOpen()) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    this.updateBodyScroll();
   }
 
   closeMenu() {
     this.isMenuOpen.set(false);
-    document.body.style.overflow = '';
+    this.updateBodyScroll();
+  }
+
+  navigateHome() {
+    this.router.navigate(['/']);
+    window.scrollTo(0, 0);
+  }
+
+  @HostListener('window:keydown.escape')
+  onEscapeKey() {
+    if (this.isMenuOpen()) {
+      this.closeMenu();
+    }
+  }
+
+  private updateBodyScroll() {
+    const body = document.documentElement;
+
+    if (this.isMenuOpen()) {
+      // Save current scroll position
+      this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+      // Lock scroll
+      this.renderer.setStyle(body, 'overflow', 'hidden');
+      this.renderer.setStyle(body, 'position', 'fixed');
+      this.renderer.setStyle(body, 'top', `-${this.scrollPosition}px`);
+      this.renderer.setStyle(body, 'left', '0');
+      this.renderer.setStyle(body, 'right', '0');
+      this.renderer.setStyle(body, 'width', '100%');
+    } else {
+      // Unlock scroll
+      this.renderer.removeStyle(body, 'overflow');
+      this.renderer.removeStyle(body, 'position');
+      this.renderer.removeStyle(body, 'top');
+      this.renderer.removeStyle(body, 'left');
+      this.renderer.removeStyle(body, 'right');
+      this.renderer.removeStyle(body, 'width');
+
+      // Restore scroll position
+      if (this.scrollPosition > 0) {
+        window.scrollTo(0, this.scrollPosition);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    // Cleanup on component destroy
+    const body = document.documentElement;
+    this.renderer.removeStyle(body, 'overflow');
+    this.renderer.removeStyle(body, 'position');
+    this.renderer.removeStyle(body, 'top');
+    this.renderer.removeStyle(body, 'left');
+    this.renderer.removeStyle(body, 'right');
+    this.renderer.removeStyle(body, 'width');
   }
 }
