@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../shared/button/button.component';
-import { LucideAngularModule, ExternalLink } from 'lucide-angular';
 import { PROFILE } from '../../../data/portfolio.data';
 
 @Component({
   selector: 'app-hero',
-  imports: [CommonModule, ButtonComponent, LucideAngularModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <section class="min-h-[90vh] flex flex-col justify-center items-start animate-fade-in-up">
       <span class="font-mono text-primary mb-6 text-sm md:text-base tracking-widest">Hi, my name is</span>
@@ -25,9 +24,11 @@ import { PROFILE } from '../../../data/portfolio.data';
         {{ profile.summary }}
       </p>
 
-      <app-button variant="primary" (click)="scrollToProjects()" class="group">
-        Check out my work!
-      </app-button>
+      <a href="KiranCV.pdf" download="KiranCV.pdf" class="inline-block">
+        <app-button variant="primary" class="group flex items-center gap-2">
+          Download My CV
+        </app-button>
+      </a>
     </section>
   `,
   styles: [`
@@ -41,8 +42,7 @@ import { PROFILE } from '../../../data/portfolio.data';
   `]
 })
 export class HeroComponent {
-  readonly profile = PROFILE;
-  readonly ExternalLinkIcon = ExternalLink;
+  readonly profile = PROFILE
   scrollToProjects() {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
   }
