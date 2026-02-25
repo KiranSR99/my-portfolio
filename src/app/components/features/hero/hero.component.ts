@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { LucideAngularModule, ExternalLink } from 'lucide-angular';
+import { PROFILE } from '../../../data/portfolio.data';
 
 @Component({
   selector: 'app-hero',
@@ -12,16 +13,16 @@ import { LucideAngularModule, ExternalLink } from 'lucide-angular';
       
       <div class="space-y-2 mb-8">
         <h1 class="font-mono font-bold text-4xl md:text-6xl lg:text-7xl text-foreground">
-          Kiran Shrestha.
+          {{ profile.name }}.
         </h1>
         
         <h2 class="font-mono font-bold text-3xl md:text-5xl lg:text-6xl text-text-muted leading-tight">
-          I build things for the web.
+          {{ profile.headline }}
         </h2>
       </div>
       
       <p class="text-description max-w-xl mb-12">
-        I'm a software engineer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on building accessible, human-centered products.
+        {{ profile.summary }}
       </p>
 
       <app-button variant="primary" (click)="scrollToProjects()" class="group">
@@ -40,6 +41,7 @@ import { LucideAngularModule, ExternalLink } from 'lucide-angular';
   `]
 })
 export class HeroComponent {
+  readonly profile = PROFILE;
   readonly ExternalLinkIcon = ExternalLink;
   scrollToProjects() {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });

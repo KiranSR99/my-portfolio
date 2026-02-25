@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { SectionComponent } from '../../shared/section/section.component';
 import { LucideAngularModule, Check } from 'lucide-angular';
+import { JOBS } from '../../../data/portfolio.data';
 
-interface Job {
-  company: string;
-  title: string;
-  range: string;
-  url: string;
-  duties: string[];
-}
 
 @Component({
   selector: 'app-experience',
@@ -74,64 +68,6 @@ interface Job {
 })
 export class ExperienceComponent {
   readonly check = Check;
+  readonly jobs = JOBS;
   activeTabIndex = 0;
-
-  jobs: Job[] = [
-    {
-      company: 'Upstatement',
-      title: 'Engineer',
-      range: 'May 2018 — Present',
-      url: '#',
-      duties: [
-        'Write modern, performant, maintainable code for a diverse array of client and internal projects',
-        'Work with a variety of different languages, platforms, frameworks, and content management systems such as JavaScript, TypeScript, Gatsby, React, Craft and WordPress',
-        'Communicate with multi-disciplinary teams of engineers, designers, producers, and clients on a daily basis'
-      ]
-    },
-    {
-      company: 'Apple',
-      title: 'UI Engineer Co-op',
-      range: 'July — December 2017',
-      url: '#',
-      duties: [
-        'Developed and styled interactive web applications for Apple Music using Ember and SCSS',
-        'Built and shipped the Apple Music Extension for Facebook Messenger leveraging third-party and internal API integrations',
-        'Architected and implemented the user interface of Apple Music\'s embeddable web player widget for in-browser user authorization and full song playback',
-        'Contributed extensively to the creation of MusicKit JS, a public-facing JavaScript SDK for embedding Apple Music players into web applications'
-      ]
-    },
-    {
-      company: 'Scout Studio',
-      title: 'Designer',
-      range: 'January — June 2017',
-      url: '#',
-      duties: [
-        'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, a startup based out of Northeastern University',
-        'Helped launch blistabloc’s first product by dreaming up the name, logo and brand identity',
-        'Oversaw the development of the company’s e-commerce platform using Shopify'
-      ]
-    },
-    {
-      company: 'Starry',
-      title: 'Software Engineer Co-op',
-      range: 'July — December 2016',
-      url: '#',
-      duties: [
-        'Engineered and maintained major features of Starry’s customer-facing Android app using React Native',
-        'Developed a custom billing flow with integration to external payment processing services',
-        'Collaborated with designers to ensure pixel-perfect implementation of UI components'
-      ]
-    },
-    {
-      company: 'MullenLowe',
-      title: 'Creative Technologist Co-op',
-      range: 'January — June 2016',
-      url: '#',
-      duties: [
-        'Developed responsive web experiences for clients such as JetBlue, Royal Caribbean, and Patron',
-        'Implemented animations and interactive elements using GSAP and SVG',
-        'Aided in the technical discovery and prototyping of new digital creative concepts'
-      ]
-    }
-  ];
 }

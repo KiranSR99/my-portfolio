@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectionComponent } from '../../shared/section/section.component';
 import { LucideAngularModule, Check } from 'lucide-angular';
+import { PROFILE } from '../../../data/portfolio.data';
 
 @Component({
   selector: 'app-about',
@@ -9,24 +10,26 @@ import { LucideAngularModule, Check } from 'lucide-angular';
   template: `
     <app-section id="about" number="01" heading="About Me">
       <div class="grid md:grid-cols-3 gap-12">
-        <div class="md:col-span-2 text-description space-y-4">
-          <p>
-            Hello! My name is Kiran Shrestha and I enjoy creating things that live on the internet. My interest in web development started back in 2020 when I decided to try editing custom Tumblr themes — turns out hacking together HTML & CSS was pretty fun!
-          </p>
-          <p>
-            Fast-forward to today, and I've had the privilege of working at an advertising agency, a start-up, a huge corporation, and a student-led design studio. My main focus these days is building accessible, inclusive products and digital experiences.
-          </p>
-          <p>
-            Here are a few technologies I've been working with recently:
-          </p>
-          <ul class="grid grid-cols-2 gap-2 mt-4 font-mono text-sm">
-            @for (tech of technologies; track $index) {
-              <li class="flex items-center gap-2">
-                <lucide-icon [img]="check" class="w-4 h-4 text-primary"></lucide-icon>
-                <span>{{ tech }}</span>
-              </li>
-            }
-          </ul>
+        <div class="md:col-span-2 text-description space-y-6">
+          <div class="space-y-4 whitespace-pre-line">
+            <p>
+              {{ profile.aboutSummary }}
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <p>
+              Here are a few technologies I've been working with recently:
+            </p>
+            <ul class="grid grid-cols-2 gap-2 font-mono text-sm">
+              @for (tech of profile.technologies; track tech) {
+                <li class="flex items-center gap-2">
+                  <lucide-icon [img]="check" class="w-4 h-4 text-primary"></lucide-icon>
+                  <span>{{ tech }}</span>
+                </li>
+              }
+            </ul>
+          </div>
         </div>
         
         <div class="relative group w-full max-w-[300px] aspect-square mx-auto md:mx-0">
@@ -47,15 +50,6 @@ import { LucideAngularModule, Check } from 'lucide-angular';
   `
 })
 export class AboutComponent {
+  readonly profile = PROFILE;
   readonly check = Check;
-
-  technologies: string[] = [
-    'Angular',
-    'TypeScript',
-    'JavaScript',
-    'REST APIs',
-    'Tailwind CSS',
-    'PrimeNG',
-    'Postman'
-  ];
 }

@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SectionComponent } from '../../shared/section/section.component';
 import { CardComponent } from '../../shared/card/card.component';
 import { LucideAngularModule, Folder } from 'lucide-angular';
+import { PROJECTS } from '../../../data/portfolio.data';
 
-interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-}
 
 @Component({
   selector: 'app-projects',
@@ -30,7 +26,7 @@ interface Project {
                  </p>
               </div>
               
-              <ul class="flex flex-wrap gap-x-4 gap-y-2 mt-auto font-mono text-xs text-text-muted/60">
+              <ul class="flex flex-wrap gap-x-4 gap-y-2 mt-auto font-mono text-xs text-primary">
                 @for (tech of project.tech; track $index) {
                   <li>{{ tech }}</li>
                 }
@@ -44,28 +40,5 @@ interface Project {
 })
 export class ProjectsComponent {
   readonly FolderIcon = Folder;
-  // readonly GithubIcon = Github;
-  // readonly ExternalLinkIcon = ExternalLink;
-  projects: Project[] = [
-    {
-      title: 'Project One',
-      description: 'A brief description of what this project does and how it was built. Focus on the problem solved. This description is intentionally a bit longer to test card alignment.',
-      tech: ['Angular', 'TypeScript', 'Tailwind']
-    },
-    {
-      title: 'Project Two',
-      description: 'Another cool project that demonstrates backend integration and state management.',
-      tech: ['Node.js', 'Express', 'MongoDB']
-    },
-    {
-      title: 'Project Three',
-      description: 'A mobile-responsive web application with complex UI interactions.',
-      tech: ['Vue.js', 'Vuex', 'Firebase']
-    },
-    {
-      title: 'Project Four',
-      description: 'An experimental project exploring WebGL and 3D graphics in the browser.',
-      tech: ['Three.js', 'React', 'WebGL']
-    }
-  ];
+  readonly projects = PROJECTS;
 }

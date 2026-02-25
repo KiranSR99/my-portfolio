@@ -13,7 +13,7 @@ import { LucideAngularModule, Moon, Sun, Menu, X } from 'lucide-angular';
   template: `
     <header class="w-full backdrop-blur-md bg-(--header-bg) border-b border-(--border-color) h-14 flex items-center justify-between px-6 transition-all duration-300">
       <button (click)="navigateHome()" class="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer" aria-label="Go to home">
-        <img src="letter-k.png" alt="Logo" class="w-10 h-10">
+        <img src="letter-k.png" alt="Logo" class="w-8 h-8">
       </button>
       
       <!-- Desktop Navigation -->
@@ -39,14 +39,14 @@ import { LucideAngularModule, Moon, Sun, Menu, X } from 'lucide-angular';
 
     <!-- Mobile Drawer Overlay/Backdrop -->
     @if (isMenuOpen()) {
-      <div (click)="closeMenu()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" [attr.aria-hidden]="true"></div>
+      <div (click)="closeMenu()" class="fixed inset-0 z-40" [attr.aria-hidden]="true"></div>
     }
 
     <!-- Mobile Drawer -->
     <aside 
       [class.translate-x-full]="!isMenuOpen()"
       [class.translate-x-0]="isMenuOpen()"
-      class="fixed top-0 right-0 h-screen w-64 bg-surface border-l border-(--border-color) z-50 transition-transform duration-300 ease-in-out md:hidden flex flex-col p-8 overflow-y-auto shadow-xl"
+      class="fixed top-0 right-0 h-screen w-64 bg-black/20 backdrop-blur-sm border-l border-(--border-color) z-50 transition-transform duration-300 ease-in-out md:hidden flex flex-col p-6 pb-16 overflow-y-auto shadow-xl"
       [attr.aria-hidden]="!isMenuOpen()"
       role="navigation">
       

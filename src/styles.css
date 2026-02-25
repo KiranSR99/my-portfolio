@@ -5,21 +5,18 @@
     --font-mono: "Space Mono", monospace;
 
     --color-primary: #22c55e;
-    /* Muted modern green */
     --color-secondary: #4ade80;
-    /* Brighter green for highlights */
     --color-accent: #14532d;
-    /* Deep forest green for dark accents */
 
     --color-bg-light: #f8fafc;
     --color-surface-light: #ffffff;
-    --color-text-light: #0f172a;
-    --color-text-muted-light: #64748b;
+    --color-text-light: #020617;
+    --color-text-muted-light: #334155;
 
     --color-bg-dark: #09090b;
     --color-surface-dark: #0f172a;
-    --color-text-dark: #f8fafc;
-    --color-text-muted-dark: #94a3b8;
+    --color-text-dark: #f1f1f1;
+    --color-text-muted-dark: #cbd5e1;
 }
 
 :root {
