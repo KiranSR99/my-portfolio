@@ -15,7 +15,7 @@ import { JOBS } from '../../../data/portfolio.data';
           @for (job of jobs; track job.company; let i = $index) {
             <button 
               (click)="activeTabIndex = i"
-              class="px-5 py-3 text-left font-mono text-xs whitespace-nowrap transition-all duration-300 border-b-2 md:border-b-0 md:border-l-2 -mb-[2px] md:mb-0 md:-ml-[2px] min-w-[120px] md:min-w-0"
+              class="px-5 py-3 text-left font-mono text-xs whitespace-nowrap transition-all duration-300 border-b-2 md:border-b-0 md:border-l-2 -mb-0.5 md:mb-0 md:-ml-0.5 min-w-30 md:min-w-0"
               [class.text-primary]="activeTabIndex === i"
               [class.bg-primary/5]="activeTabIndex === i"
               [class.border-primary]="activeTabIndex === i"

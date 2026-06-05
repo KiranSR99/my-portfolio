@@ -57,7 +57,7 @@ export const JOBS: Job[] = [
     {
         company: 'Independent Client',
         title: 'Angular Developer',
-        range: 'November 2025 — Present',
+        range: 'December 2025 — May 2026',
         url: '#',
         duties: [
             'Building scalable front-end features using Angular, TypeScript, RxJS, and REST APIs',
@@ -68,7 +68,7 @@ export const JOBS: Job[] = [
     {
         company: 'Aadim Innovation',
         title: 'Angular Developer',
-        range: 'December 2023 — April 2025',
+        range: 'December 2023 — May 2025',
         url: '#',
         duties: [
             'Actively participated in the research and development of School Content Management System utilizing Angular and TypeScript',
